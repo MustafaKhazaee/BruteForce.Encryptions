@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PackageId>Your.PackageName</PackageId>
-	<Version>1.0.0</Version>
+	<PackageId>BruteForce.Encryption</PackageId>
+	<Version>1.0.2</Version>
 	<Authors>Mustafa Khazaee</Authors>
 	<Company>Brute Force</Company>
 	<Description>Some useful encryption methods.</Description>

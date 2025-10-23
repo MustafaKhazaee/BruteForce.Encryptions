@@ -12,18 +12,22 @@ public class AESEncryption
     {
         ArgumentException.ThrowIfNullOrEmpty(plainText);
         byte[] encrypted;
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.CFB;
-        aes.Padding = PaddingMode.PKCS7;
-        aes.FeedbackSize = 128;
-        aes.Key = Encoding.UTF8.GetBytes(key);
-        aes.IV = iv;
-        var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-        using var msEncrypt = new MemoryStream();
-        using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
-        using var swEncrypt = new StreamWriter(csEncrypt);
-        await swEncrypt.WriteAsync(plainText);
-        encrypted = msEncrypt.ToArray();
+        using (var aes = Aes.Create())
+        {
+            aes.Mode = CipherMode.CFB;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.FeedbackSize = 128;
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = iv;
+            var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+            using var msEncrypt = new MemoryStream();
+            using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+            using (var swEncrypt = new StreamWriter(csEncrypt))
+            {
+                await swEncrypt.WriteAsync(plainText);
+            }
+            encrypted = msEncrypt.ToArray();
+        }
         return Convert.ToBase64String(encrypted);
     }
 
@@ -31,17 +35,27 @@ public class AESEncryption
     {
         ArgumentException.ThrowIfNullOrEmpty(cipherText);
         var cipherTextBytes = Convert.FromBase64String(cipherText);
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.CFB;
-        aes.Padding = PaddingMode.PKCS7;
-        aes.FeedbackSize = 128;
-        aes.Key = Encoding.UTF8.GetBytes(key);
-        aes.IV = iv;
-        var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-        using var msDecrypt = new MemoryStream(cipherTextBytes);
-        using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
-        using var srDecrypt = new StreamReader(csDecrypt);
-        return await srDecrypt.ReadToEndAsync();
+        string plaintext = "";
+        using (var aes = Aes.Create())
+        {
+            aes.Mode = CipherMode.CFB;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.FeedbackSize = 128;
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = iv;
+            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            try
+            {
+                using var msDecrypt = new MemoryStream(cipherTextBytes);
+                using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+                using var srDecrypt = new StreamReader(csDecrypt);
+                plaintext = await srDecrypt.ReadToEndAsync();
+            } catch (Exception ex)
+            {
+                plaintext = "keyError";
+            }
+        }
+        return plaintext;
     }
 
     public static string GenerateRandomSecret()
