@@ -10,7 +10,7 @@
 	<Company>Brute Force</Company>
 	<Description>Some useful encryption methods.</Description>
 	<PackageTags>Encryption</PackageTags>
-	<RepositoryUrl>https://github.com/your/repo</RepositoryUrl>
+	<RepositoryUrl>https://github.com/MustafaKhazaee/BruteForce.Encryptions</RepositoryUrl>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
