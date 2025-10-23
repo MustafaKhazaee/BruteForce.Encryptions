@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<PackageId>Your.PackageName</PackageId>
+	<Version>1.0.0</Version>
+	<Authors>Mustafa Khazaee</Authors>
+	<Company>Brute Force</Company>
+	<Description>Some useful encryption methods.</Description>
+	<PackageTags>Encryption</PackageTags>
+	<RepositoryUrl>https://github.com/your/repo</RepositoryUrl>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
